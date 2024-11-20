@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+// import dat from 'dat.gui';
 
 // ----- 주제: glb 파일 불러오기
 
@@ -24,21 +26,50 @@ export default function example() {
 		0.1,
 		1000
 	);
-	camera.position.y = 1.5;
-	camera.position.z = 4;
+	camera.position.x = 50;
+	camera.position.y = 120;
+	camera.position.z = 100;
 	scene.add(camera);
 
 	// Light
-	const ambientLight = new THREE.AmbientLight('white', 0.5);
+	const ambientLight = new THREE.AmbientLight('white', .8);
 	scene.add(ambientLight);
 
-	const directionalLight = new THREE.DirectionalLight('white', 1);
-	directionalLight.position.x = 1;
-	directionalLight.position.z = 2;
-	scene.add(directionalLight);
+	const directionalLight1 = new THREE.DirectionalLight('white', 1);
+	directionalLight1.position.set(-65, 35, 0);
+	scene.add(directionalLight1);
+
+	const directionalLight2 = new THREE.DirectionalLight('white', 1);
+	directionalLight2.position.set(65, 35, -8);
+	scene.add(directionalLight2);
+
+	const dirLightHelper1 = new THREE.DirectionalLightHelper( directionalLight1, 10 );
+	scene.add( dirLightHelper1 );
+	const dirLightHelper2 = new THREE.DirectionalLightHelper( directionalLight2, 10 );
+	scene.add( dirLightHelper2 );
 
 	// Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
+
+	// GUI
+	const gui = new GUI();
+	const cameraGui = gui.addFolder('Camera');
+	const lightGui01 = gui.addFolder('Light1');
+	const lightGui02 = gui.addFolder('Light2');
+
+	cameraGui.add(camera.position, 'x', -150, 150, 0.01);
+	cameraGui.add(camera.position, 'y', -150, 150, 0.01);
+	cameraGui.add(camera.position, 'z', -150, 150, 0.01);
+
+	lightGui01.add( directionalLight1, 'intensity', 0, 1, 0.02 );
+	lightGui01.add( directionalLight1.position, 'x', -150, 150, 0.02 );
+	lightGui01.add( directionalLight1.position, 'y', -150, 150, 0.02 );
+	lightGui01.add( directionalLight1.position, 'z', -150, 150, 0.02 );
+
+	lightGui02.add( directionalLight2, 'intensity', 0, 1, 0.02 );
+	lightGui02.add( directionalLight2.position, 'x', -150, 150, 0.02 );
+	lightGui02.add( directionalLight2.position, 'y', -150, 150, 0.02 );
+	lightGui02.add( directionalLight2.position, 'z', -150, 150, 0.02 );
 
 	// gltf loader
 	const gltfLoader = new GLTFLoader();
