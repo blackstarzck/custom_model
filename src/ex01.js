@@ -5,7 +5,6 @@ import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 // import dat from 'dat.gui';
 
 // ----- 주제: glb 파일 불러오기
-
 export default function example() {
 	// Renderer
 	const canvas = document.querySelector('#three-canvas');
@@ -76,10 +75,9 @@ export default function example() {
 	gltfLoader.load(
 		'./models/hyundai-original.glb',
 		gltf => {
-			console.log(gltf.scene.children[0]);
-			console.log(gltf.scene);
-			const ilbuniMesh = gltf.scene.children[0];
-			scene.add(ilbuniMesh)
+			const hyundai = gltf.scene.children[0];
+			// hyundai.scale.set(5, 5, 5);
+			scene.add(hyundai);
 		}
 	)
 
